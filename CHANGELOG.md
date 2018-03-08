@@ -30,6 +30,7 @@
 * **decidim-core**: Fix categories select when missing translations. [\#2742](https://github.com/decidim/decidim/pull/2742)
 * **decidim-core**: Fix mention parsing to only search users in current organization. [\2711](https://github.com/decidim/decidim/pull/2711)
 - **decidim-core**: Fix user invitations by generating their nickname. [\#2783](https://github.com/decidim/decidim/pull/2789)
+- **decidim-accountability**: Fix parent results progress [\#2954](https://github.com/decidim/decidim/pull/2954)
 
 ## [v0.9.2](https://github.com/decidim/decidim/tree/v0.9.2) (2018-2-9)
 
