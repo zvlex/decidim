@@ -49,6 +49,11 @@ Decidim::Core::Engine.routes.draw do
   end
 
   resources :profiles, only: [:show], param: :nickname
+  scope "/profiles/:nickname" do
+    get "notifications", to: "profiles#show", as: "profile_notifications", active: "notifications"
+    get "following", to: "profiles#show", as: "profile_following", active: "following"
+    get "followers", to: "profiles#show", as: "profile_followers", active: "followers"
+  end
 
   resources :pages, only: [:index, :show], format: false
 

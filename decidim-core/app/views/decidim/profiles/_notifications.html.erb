@@ -1,0 +1,31 @@
+<div id="notifications">
+  <section id="notifications-list">
+    <% collection.select(&:resource).each do |notification| %>
+      <div class="card card--widget card--list">
+        <ul class="card-data">
+          <li class="card-data__item">
+            <div class="card__link text-center">
+              <%= resource_icon notification.resource, class: "icon--large" %>
+              <span class="text-medium mt-xs"><%= notification.created_at.strftime("%a %e") %></span>
+            </div>
+          </li>
+          <li class="card-data__item card-data__item--expand absolutes">
+            <div class="mr-s">
+              <span class="text-small"><%= notification.resource.class.model_name.human %></span>
+              <br />
+              <span>
+                <%= notification.event_class_instance.notification_title %>
+              </span>
+            </div>
+            <div class="right center mr-s">
+              <%= link_to notification, remote: true, method: :delete, class: "mark-as-read-button" do %>
+                <%= icon "circle-x", class: "card__link" %>
+              <% end %>
+            </div>
+          </li>
+        </ul>
+      </div>
+    <% end %>
+  </section>
+</div>
+<%= javascript_include_tag "decidim/notifications" %>
