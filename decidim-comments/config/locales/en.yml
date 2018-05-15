@@ -1,5 +1,13 @@
 ---
 en:
+  activerecord:
+    models:
+      decidim/comments/comment:
+        one: Comment
+        other: Comments
+      decidim/comments/comment_vote:
+        one: Vote
+        other: Votes
   decidim:
     comments:
       comments: Comments

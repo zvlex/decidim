@@ -30,6 +30,13 @@ en:
         user_group_document_number: Organization document number
         user_group_name: Organization name
         user_group_phone: Organization phone
+    models:
+      decidim/user:
+        one: User
+        other: Users
+      decidim/user_group:
+        one: User group
+        other: User groups
   booleans:
     'false': 'No'
     'true': 'Yes'
@@ -355,7 +362,16 @@ en:
       default_officialization_text: This participant is publicly verified, his/her name or role has been verified to correspond with his/her real name and role
       show:
         about_me: About me
+        followers: Followers
+        following: Following
+        no_followers: No followers yet.
+        no_following: No followings yet.
+        no_notifications: No notifications yet.
+        notifications: Notifications
         personal_url: Personal website
+      user:
+        edit_profile: Edit profile
+        member_of: Member of
     reported_mailer:
       hide:
         hello: Hello %{name},
