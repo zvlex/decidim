@@ -7,7 +7,7 @@ $(() => {
 
   const anyNotifications = () => $wrapper.find(".card--list__item").length > 0;
   const emptyNotifications = () => {
-    if (!anyNotifications() && $section !== "undefined") {
+    if (!anyNotifications()) {
       $section.remove();
       $noNotificationsText.removeClass("hide");
     }
