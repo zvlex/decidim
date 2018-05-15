@@ -15,6 +15,14 @@ en:
             choices:
               missing: are not complete
               too_many: are too many
+  activerecord:
+    models:
+      decidim/surveys/survey:
+        one: Survey
+        other: Surveys
+      decidim/surveys/survey_answer:
+        one: Answer
+        other: Answers
   decidim:
     components:
       surveys:

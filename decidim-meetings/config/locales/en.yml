@@ -28,6 +28,17 @@ en:
         description: Description
         video_url: Video url
         visible: Is visible
+  activerecord:
+    models:
+      decidim/meetings/meeting:
+        one: Meeting
+        other: Meetings
+      decidim/meetings/minutes:
+        one: Minutes
+        other: Minutes
+      decidim/meetings/registration:
+        one: Registration
+        other: Registrations
   decidim:
     admin:
       meeting_copies:

@@ -1,5 +1,10 @@
 ---
 en:
+  activerecord:
+    models:
+      decidim/blogs/post:
+        one: Post
+        other: Posts
   decidim:
     blogs:
       actions:

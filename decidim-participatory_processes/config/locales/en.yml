@@ -45,6 +45,17 @@ en:
         email: Email
         name: Name
         role: Role
+  activerecord:
+    models:
+      decidim/participatory_process:
+        one: Participatory process
+        other: Participatory processes
+      decidim/participatory_process_group:
+        one: Participatory process group
+        other: Participatory process groups
+      decidim/participatory_process_step:
+        one: Step
+        other: Steps
   decidim:
     admin:
       actions:

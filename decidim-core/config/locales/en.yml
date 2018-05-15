@@ -30,6 +30,13 @@ en:
         user_group_document_number: Organization document number
         user_group_name: Organization name
         user_group_phone: Organization phone
+    models:
+      decidim/user:
+        one: User
+        other: Users
+      decidim/user_group:
+        one: User group
+        other: User groups
   booleans:
     'false': 'No'
     'true': 'Yes'

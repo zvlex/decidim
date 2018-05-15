@@ -22,6 +22,11 @@ en:
       timeline_entry:
         description: Description
         entry_date: Date
+  activerecord:
+    models:
+      decidim/accountability/result:
+        one: Result
+        other: Results
   decidim:
     accountability:
       actions:

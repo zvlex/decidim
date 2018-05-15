@@ -17,6 +17,20 @@ en:
       proposals_copy:
         copy_proposals: I understand that this will import all proposals from the selected component to the current one and that this action can't be reversed.
         origin_component_id: Component to copy the proposals from
+  activerecord:
+    models:
+      decidim/proposals/proposal:
+        one: Proposal
+        other: Proposals
+      decidim/proposals/proposal_endorsement:
+        one: Endorsement
+        other: Endorsements
+      decidim/proposals/proposal_note:
+        one: Note
+        other: Notes
+      decidim/proposals/proposal_vote:
+        one: Vote
+        other: Votes
   decidim:
     components:
       proposals:
