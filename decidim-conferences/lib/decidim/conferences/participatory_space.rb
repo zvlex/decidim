@@ -29,6 +29,17 @@ Decidim.register_participatory_space(:conferences) do |participatory_space|
     context.layout = "layouts/decidim/admin/conference"
   end
 
+  participatory_space.register_stat :speakers_count, primary: true, priority: Decidim::StatsRegistry::HIGH_PRIORITY do |participatory_spaces, start_at, end_at|
+    speakers = Decidim::ConferenceSpeaker.where(conference: participatory_spaces)
+    speakers.count
+  end
+
+  participatory_space.register_stat :interventions_count, primary: true, priority: Decidim::StatsRegistry::MEDIUM_PRIORITY do |participatory_spaces, start_at, end_at|
+    speakers = Decidim::ConferenceSpeaker.where(conference: participatory_spaces)
+    interventions = Decidim::ConferenceSpeakerConferenceMeeting.where(conference_speaker: speakers)
+    interventions.count
+  end
+
   participatory_space.seeds do
     organization = Decidim::Organization.first
     seeds_root = File.join(__dir__, "..", "..", "..", "db", "seeds")
