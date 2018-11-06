@@ -29,15 +29,27 @@ Decidim.register_participatory_space(:conferences) do |participatory_space|
     context.layout = "layouts/decidim/admin/conference"
   end
 
-  participatory_space.register_stat :speakers_count, primary: true, priority: Decidim::StatsRegistry::HIGH_PRIORITY do |participatory_spaces, start_at, end_at|
+  participatory_space.register_stat :speakers_count, primary: true, priority: Decidim::StatsRegistry::HIGH_PRIORITY do |participatory_spaces|
     speakers = Decidim::ConferenceSpeaker.where(conference: participatory_spaces)
     speakers.count
   end
 
-  participatory_space.register_stat :interventions_count, primary: true, priority: Decidim::StatsRegistry::MEDIUM_PRIORITY do |participatory_spaces, start_at, end_at|
+  participatory_space.register_stat :interventions_count, primary: true, priority: Decidim::StatsRegistry::MEDIUM_PRIORITY do |participatory_spaces|
     speakers = Decidim::ConferenceSpeaker.where(conference: participatory_spaces)
     interventions = Decidim::ConferenceSpeakerConferenceMeeting.where(conference_speaker: speakers)
     interventions.count
+  end
+
+  participatory_space.register_stat :main_promotors_count, primary: true, priority: Decidim::StatsRegistry::MEDIUM_PRIORITY do |participatory_spaces|
+    partners = Decidim::Conferences::Partner.where(conference: participatory_spaces)
+    main_promotors = partners.where(partner_type: "main_promotor") 
+    main_promotors.count
+  end
+
+  participatory_space.register_stat :collaborators_count, primary: true, priority: Decidim::StatsRegistry::MEDIUM_PRIORITY do |participatory_spaces|
+    partners = Decidim::Conferences::Partner.where(conference: participatory_spaces)
+    collaborators = partners.where(partner_type: "main_promotor") 
+    collaborators.count
   end
 
   participatory_space.seeds do

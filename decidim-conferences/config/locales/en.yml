@@ -400,6 +400,7 @@ en:
         debates_count: Debates
         endorsements_count: Endorsements
         headline: Activity
+        interventions_count: Interventions
         meetings_count: Meetings
         orders_count: Votes
         pages_count: Pages
@@ -407,6 +408,8 @@ en:
         projects_count: Projects
         proposals_count: Proposals
         results_count: Results
+        sortitions_count: Sortitions
+        speakers_count: Speakers
         surveys_count: Surveys
         users_count: Participants
         votes_count: Votes
