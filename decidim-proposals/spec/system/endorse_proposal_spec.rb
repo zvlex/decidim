@@ -131,7 +131,7 @@ describe "Endorse Proposal", type: :system do
       context "when verification is required" do
         let(:endorsement) {}
         let(:permissions) do
-          { endorse: { authorization_handler_name: "dummy_authorization_handler" } }
+          { endorse: { authorization_handler_name: ["dummy_authorization_handler"] } }
         end
 
         before do

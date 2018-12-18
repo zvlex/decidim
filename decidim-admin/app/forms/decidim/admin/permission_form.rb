@@ -4,11 +4,11 @@ module Decidim
   module Admin
     # This form handles permissions for a particular action in the admin panel.
     class PermissionForm < Form
-      attribute :authorization_handler_name, String
+      attribute :authorization_handler_name, Array[String]
       attribute :options, Hash
 
       def manifest
-        Decidim::Verifications.find_workflow_manifest(authorization_handler_name)
+        Decidim::Verifications.find_workflow_manifest(authorization_handler_name&.first)
       end
 
       def options_schema

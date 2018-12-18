@@ -66,7 +66,7 @@ describe "Orders", type: :system do
       before do
         permissions = {
           vote: {
-            authorization_handler_name: "dummy_authorization_handler"
+            authorization_handler_name: ["dummy_authorization_handler"]
           }
         }
 

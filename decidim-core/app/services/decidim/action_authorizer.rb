@@ -55,7 +55,8 @@ module Decidim
     end
 
     def authorization_handler_name
-      permission&.fetch("authorization_handler_name", nil)
+      handler_names = permission&.fetch("authorization_handler_name", [])
+      handler_names.first if handler_names && handler_names.is_a?(Array) && handler_names.any?
     end
 
     def permission_options

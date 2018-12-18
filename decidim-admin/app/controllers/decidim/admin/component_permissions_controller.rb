@@ -51,7 +51,7 @@ module Decidim
       def permission_forms
         actions.inject({}) do |result, action|
           form = PermissionForm.new(
-            authorization_handler_name: authorization_for(action),
+            authorization_handler_name: [authorization_for(action)],
             options: permissions.dig(action, "options")
           )
 
@@ -91,7 +91,7 @@ module Decidim
       end
 
       def authorization_for(action)
-        permissions.dig(action, "authorization_handler_name")
+        permissions.dig(action, "authorization_handler_name")&.first
       end
     end
   end

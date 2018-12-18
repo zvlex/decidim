@@ -8,7 +8,7 @@
     <%= options_form.send(
           form_method_for_attribute(attribute),
           name,
-          label: t("authorization_handlers.#{form.object.authorization_handler_name}.fields.#{name}", scope: "decidim")
+          label: t("authorization_handlers.#{form.object.authorization_handler_name.first}.fields.#{name}", scope: "decidim")
         ) %>
   <% end %>
 <% end %>

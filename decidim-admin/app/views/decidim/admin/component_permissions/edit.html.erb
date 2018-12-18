@@ -23,8 +23,8 @@
                                                     :name,
                                                     :description,
                                                     { include_blank: t(".everyone") } %>
-              <% if permission.authorization_handler_name %>
-                <div id="authorization-handler-<%= permission.authorization_handler_name %>"
+              <% if permission.authorization_handler_name.any? %>
+                <div id="authorization-handler-<%= permission.authorization_handler_name.first %>"
                      class="authorization-handler">
                   <%= render "options_form", form: permission_form %>
                 </div>
@@ -32,7 +32,7 @@
             <% end %>
 
             <% other_authorizations_for(action).each do |authorization| %>
-              <% permission = Decidim::Admin::PermissionForm.new(authorization_handler_name: authorization.name) %>
+              <% permission = Decidim::Admin::PermissionForm.new(authorization_handler_name: [authorization.name]) %>
 
               <%= action_permission_form.fields_for(action, permission) do |permission_form| %>
                 <div id="authorization-handler-<%= authorization.name %>"
