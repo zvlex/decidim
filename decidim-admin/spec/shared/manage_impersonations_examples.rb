@@ -69,7 +69,7 @@ shared_examples "manage impersonations examples" do
           participatory_space: participatory_space,
           permissions: {
             "foo" => {
-              "authorization_handler_name" => authorization_handler
+              "authorization_handler_name" => [authorization_handler]
             }
           }
         )

@@ -14,11 +14,11 @@ module Decidim::Admin
         participatory_space: participatory_process,
         permissions: {
           "create" => {
-            "authorization_handler_name" => "dummy_authorization_handler",
+            "authorization_handler_name" => ["dummy_authorization_handler"],
             "options" => { "thelma" => "louise" }
           },
           "vote" => {
-            "authorization_handler_name" => "dummy_authorization_handler",
+            "authorization_handler_name" => ["dummy_authorization_handler"],
             "options" => { "thelma" => "louise" }
           }
         }
@@ -34,7 +34,7 @@ module Decidim::Admin
         valid?: valid,
         permissions: {
           "create" => double(
-            authorization_handler_name: "dummy",
+            authorization_handler_name: ["dummy"],
             options: { "perry" => "mason" }
           )
         }
@@ -44,7 +44,7 @@ module Decidim::Admin
     let(:expected_permissions) do
       {
         "create" => {
-          "authorization_handler_name" => "dummy",
+          "authorization_handler_name" => ["dummy"],
           "options" => { "perry" => "mason" }
         }
       }
@@ -80,7 +80,7 @@ module Decidim::Admin
       let(:changing_permissions) do
         {
           "create" => {
-            "authorization_handler_name" => "dummy",
+            "authorization_handler_name" => ["dummy"],
             "options" => { "perry" => "mason" }
           }
         }
