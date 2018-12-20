@@ -15,12 +15,17 @@ module Decidim
         @options_schema ||= options_manifest.schema.new(options || {})
       end
 
+      # options_manifest.attributes.class => Hash
+      # example:
+      # { postal_code: #<Decidim::SettingsManifest::Attribute> }
       def options_attributes
         options_manifest.attributes
       end
 
       private
 
+      # manifest.class => Decidim::Verifications::WorkflowManifest
+      # manifest.options.class => Decidim::SettingsManifest
       def options_manifest
         manifest.options
       end
