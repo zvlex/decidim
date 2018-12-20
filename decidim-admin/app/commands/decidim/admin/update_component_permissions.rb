@@ -36,18 +36,27 @@ module Decidim
 
       def configured_permissions
         form.permissions.select do |action, permission|
-          permission.authorization_handler_name.select(&:present?).any? || overriding_component_permissions?(action)
+          permission.authorization_handlers || overriding_component_permissions?(action)
         end
       end
 
       def update_permissions
         permissions = configured_permissions.inject({}) do |result, (key, value)|
+          handlers_content = {}
+
+          value.authorization_handlers.each do |handler_key, handler_value|
+            handlers_content[handler_key] = if handler_value[:options] && handler_value[:options].keys.any?
+                                              { "options" => handler_value[:options] }
+                                            else
+                                              {}
+                                            end
+          end
+
           serialized = {
-            "authorization_handler_name" => value.authorization_handler_name.select(&:present?),
-            "options" => value.options
+            "authorization_handlers": handlers_content
           }
 
-          result.update(key => value.authorization_handler_name.select(&:present?).any? ? serialized : {})
+          result.update(key => value.authorization_handlers.keys.any? ? serialized : {})
         end
 
         if resource

@@ -61,7 +61,7 @@ describe Decidim::Meetings::Permissions do
 
     context "when meeting can be joined" do
       let(:can_be_joined) { true }
-
+      #
       it { is_expected.to eq true }
     end
   end

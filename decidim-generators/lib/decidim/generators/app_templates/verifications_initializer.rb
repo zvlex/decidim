@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# opciones definidas
+
 Decidim::Verifications.register_workflow(:dummy_authorization_handler) do |workflow|
   workflow.form = "DummyAuthorizationHandler"
   workflow.action_authorizer = "DummyAuthorizationHandler::DummyActionAuthorizer"

@@ -1,6 +1,8 @@
 <%
-  schema = form.object.options_schema
-  attributes = form.object.options_attributes
+  index = local_assigns[:index]
+  schema = form.object.options_schema_collection[index]
+  attributes = form.object.options_attributes_collection[index]
+  handler_name = local_assigns[:handler_name]
 %>
 
 <%= form.fields_for(:options, schema) do |options_form| %>
@@ -8,7 +10,7 @@
     <%= options_form.send(
           form_method_for_attribute(attribute),
           name,
-          label: t("authorization_handlers.#{form.object.authorization_handler_name.first}.fields.#{name}", scope: "decidim")
+          label: t("authorization_handlers.#{handler_name}.fields.#{name}", scope: "decidim")
         ) %>
   <% end %>
 <% end %>

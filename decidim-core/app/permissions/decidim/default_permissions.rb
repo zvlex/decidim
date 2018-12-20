@@ -42,7 +42,22 @@ module Decidim
       return unless resource || component
       return if component && resource && component != resource.component
 
-      ActionAuthorizer.new(user, permission_action, component, resource).authorize.ok?
+      # Rails.logger.debug "========================"
+      # Rails.logger.debug "default_permissions.rb > authorized?"
+      # Rails.logger.debug "user: #{user}"
+      # Rails.logger.debug "permission_action: #{permission_action}"
+      # Rails.logger.debug "component: #{component}"
+      # Rails.logger.debug "resource: #{resource}"
+      # Rails.logger.debug "========================"
+
+      # debe ir al action authorizer
+      result = ActionAuthorizer.new(user, permission_action, component, resource).authorize.ok?
+
+      Rails.logger.debug "======================== authorized? result"
+      Rails.logger.debug "result: #{result}"
+      Rails.logger.debug "========================"
+
+      result
     end
 
     def current_settings

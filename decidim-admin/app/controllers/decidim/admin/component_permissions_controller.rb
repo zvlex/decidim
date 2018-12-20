@@ -12,9 +12,16 @@ module Decidim
       helper_method :authorizations, :other_authorizations_for, :component, :resource_params, :resource
 
       def edit
+        puts JSON.pretty_generate(JSON.parse params.to_json)
+
         enforce_permission_to :update, :component, component: component
+
+        my_permission_forms = permission_forms
+
+        #debugger
+
         @permissions_form = PermissionsForm.new(
-          permissions: permission_forms
+          permissions: my_permission_forms
         )
       end
 
@@ -50,9 +57,11 @@ module Decidim
 
       def permission_forms
         actions.inject({}) do |result, action|
+          debugger
+          # esto que
           form = PermissionForm.new(
-            authorization_handler_name: [authorization_for(action)],
-            options: permissions.dig(action, "options")
+            authorization_handlers: authorizations_for(action),
+            options_collection: []#permissions.dig(action, "options")
           )
 
           result.update(action => form)
@@ -70,8 +79,10 @@ module Decidim
       end
 
       def other_authorizations_for(action)
+        other_authorizations_names = current_organization.available_authorizations - authorizations_for(action).keys
+
         Verifications::Adapter.from_collection(
-          current_organization.available_authorizations - [authorization_for(action)]
+          other_authorizations_names
         )
       end
 
@@ -90,8 +101,12 @@ module Decidim
         @permissions ||= (component.permissions || {}).merge(resource&.permissions || {})
       end
 
-      def authorization_for(action)
-        permissions.dig(action, "authorization_handler_name")&.first
+      def authorizations_for(action)
+        permissions.dig(action, "authorization_handlers") || {}
+      end
+
+      def authorizations_for(action)
+        permissions.dig(action, "authorization_handler_name")
       end
     end
   end
