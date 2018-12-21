@@ -2,6 +2,10 @@
 
 require "spec_helper"
 
+# NOTA: estos examples están incluidos desde todos los componentes. Es el fichero principal que
+# voy ejecutando para ir viendo si voy progresando. Recomiendo comentar todas las specs menos
+# la primera para que el output no sea tan abundante.
+
 shared_examples "Managing component permissions" do
   let(:organization) do
     create(
@@ -30,8 +34,9 @@ shared_examples "Managing component permissions" do
     it "saves permission settings in the component" do
       within "form.new_component_permissions" do
         within ".foo-permission" do
-          select "Example authorization", from: "component_permissions_permissions_foo_authorization_handler_name"
-          fill_in "component_permissions_permissions_foo_options_postal_code", with: "08002"
+          # TODO: buscar una forma más limpia para generar el nombre del check y el fill_in, está hardcodeado ahora mismo
+          check "component_permissions_permissions_foo_authorization_handlers_dummy_authorization_handler"
+          fill_in "component_permissions_permissions_foo_authorization_handlers_dummy_authorization_handler_options_postal_code", with: "08002"
         end
         find("*[type=submit]").click
       end
@@ -40,8 +45,11 @@ shared_examples "Managing component permissions" do
 
       expect(component.reload.permissions["foo"]).to(
         include(
-          "authorization_handler_name" => ["dummy_authorization_handler"],
-          "options" => { "postal_code" => "08002" }
+          "authorization_handlers" => {
+            "dummy_authorization_handler" => {
+              "options" => { "postal_code" => "08002" }
+            }
+          }
         )
       )
     end
@@ -52,8 +60,11 @@ shared_examples "Managing component permissions" do
       component.update!(
         permissions: {
           "foo" => {
-            "authorization_handler_name" => ["dummy_authorization_handler"],
-            "options" => { "postal_code" => "08002" }
+            "authorization_handlers" => {
+              "dummy_authorization_handler" => {
+                "options" => { "postal_code" => "08002" }
+              }
+            }
           }
         }
       )
@@ -83,8 +94,11 @@ shared_examples "Managing component permissions" do
       component.update!(
         permissions: {
           "foo" => {
-            "authorization_handler_name" => ["dummy_authorization_handler"],
-            "options" => { "postal_code" => "08002" }
+            "authorization_handlers" => {
+              "dummy_authorization_handler" => {
+                "options" => { "postal_code" => "08002" }
+              }
+            }
           }
         }
       )
@@ -108,8 +122,11 @@ shared_examples "Managing component permissions" do
 
       expect(component.reload.permissions["foo"]).to(
         include(
-          "authorization_handler_name" => ["another_dummy_authorization_handler"],
-          "options" => { "passport_number" => "AXXXXXXXX" }
+          "authorization_handlers" => {
+            "another_dummy_authorization_handler" => {
+              "options" => { "passport_number" => "AXXXXXXXX" }
+            }
+          }
         )
       )
     end
@@ -164,8 +181,11 @@ shared_examples "Managing component permissions" do
 
         expect(resource.reload.permissions["foo"]).to(
           include(
-            "authorization_handler_name" => ["dummy_authorization_handler"],
-            "options" => { "postal_code" => "08002" }
+            "authorization_handlers" => {
+              "dummy_authorization_handler" => {
+                "options" => { "postal_code" => "08002" }
+              }
+            }
           )
         )
         expect(component.reload.permissions).to be_nil
@@ -177,8 +197,11 @@ shared_examples "Managing component permissions" do
         resource.create_resource_permission(
           permissions: {
             "foo" => {
-              "authorization_handler_name" => ["dummy_authorization_handler"],
-              "options" => { "postal_code" => "08002" }
+              "authorization_handlers" => {
+                "dummy_authorization_handler" => {
+                  "options" => { "postal_code" => "08002" }
+                }
+              }
             }
           }
         )
@@ -206,8 +229,11 @@ shared_examples "Managing component permissions" do
         resource.create_resource_permission(
           permissions: {
             "foo" => {
-              "authorization_handler_name" => ["dummy_authorization_handler"],
-              "options" => { "postal_code" => "08002" }
+              "authorization_handlers" => {
+                "dummy_authorization_handler" => {
+                  "options" => { "postal_code" => "08002" }
+                }
+              }
             }
           }
         )
@@ -229,8 +255,11 @@ shared_examples "Managing component permissions" do
 
         expect(resource.reload.permissions["foo"]).to(
           include(
-            "authorization_handler_name" => ["another_dummy_authorization_handler"],
-            "options" => { "passport_number" => "AXXXXXXXX" }
+            "authorization_handlers" => {
+              "another_dummy_authorization_handler" => {
+                "options" => { "passport_number" => "AXXXXXXXX" }
+              }
+            }
           )
         )
       end
@@ -241,8 +270,11 @@ shared_examples "Managing component permissions" do
         component.update!(
           permissions: {
             "foo" => {
-              "authorization_handler_name" => ["dummy_authorization_handler"],
-              "options" => { "postal_code" => "08002" }
+              "authorization_handlers" => {
+                "dummy_authorization_handler" => {
+                  "options" => { "postal_code" => "08002" }
+                }
+              }
             }
           }
         )
@@ -264,15 +296,19 @@ shared_examples "Managing component permissions" do
 
         expect(resource.reload.permissions["foo"]).to(
           include(
-            "authorization_handler_name" => ["another_dummy_authorization_handler"],
-            "options" => { "passport_number" => "AXXXXXXXX" }
+            "authorization_handlers" => {
+              "another_dummy_authorization_handler" => {
+                "options" => { "passport_number" => "AXXXXXXXX" }
+              }
+            }
           )
         )
 
         expect(component.reload.permissions["foo"]).to(
           include(
-            "authorization_handler_name" => ["dummy_authorization_handler"],
-            "options" => { "postal_code" => "08002" }
+            "dummy_authorization_handler" => {
+              "options" => { "postal_code" => "08002" }
+            }
           )
         )
       end
@@ -283,8 +319,11 @@ shared_examples "Managing component permissions" do
         component.update!(
           permissions: {
             "foo" => {
-              "authorization_handler_name" => ["dummy_authorization_handler"],
-              "options" => { "postal_code" => "08002" }
+              "authorization_handlers" => {
+                "dummy_authorization_handler" => {
+                  "options" => { "postal_code" => "08002" }
+                }
+              }
             }
           }
         )
