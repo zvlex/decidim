@@ -25,11 +25,20 @@ module Decidim
     end
 
     def authorize_action_path
+      # esto hay que actualizarlo, si no en la modal me llevan todos los botones al mismo path
       status.current_path(redirect_url: URI(request.referer).path)
     end
 
     def status
+      # de aquí se saca el nombre que aparece en el botón
+      # devuelve la clase de status normal
       @status ||= action_authorized_to(authorization_action, resource: resource)
+      Rails.logger.debug "**************************"
+      Rails.logger.debug "Status returned by the AuthorizationModalsController"
+      Rails.logger.debug @status
+      Rails.logger.debug "**************************"
+
+      @status
     end
   end
 end

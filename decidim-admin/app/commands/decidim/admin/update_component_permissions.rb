@@ -34,20 +34,33 @@ module Decidim
 
       attr_reader :form, :component, :resource
 
+      # TODO: esta implementación es para salir del paso
       def configured_permissions
         form.permissions.select do |action, permission|
-          permission.authorization_handler_name.select(&:present?).any? || overriding_component_permissions?(action)
+          permission.authorization_handlers || overriding_component_permissions?(action)
         end
       end
 
+      # TODO: esta implementación es para salir del paso
       def update_permissions
         permissions = configured_permissions.inject({}) do |result, (key, value)|
+          handlers_content = {}
+
+          present_authorization_handlers = value.authorization_handlers.except("").except(nil)
+
+          present_authorization_handlers.each do |handler_key, handler_value|
+            handlers_content[handler_key] = if handler_value && handler_value[:options] && handler_value[:options].keys.any?
+                                              { "options" => handler_value[:options] }
+                                            else
+                                              {}
+                                            end
+          end
+
           serialized = {
-            "authorization_handler_name" => value.authorization_handler_name.select(&:present?),
-            "options" => value.options
+            "authorization_handlers": handlers_content
           }
 
-          result.update(key => value.authorization_handler_name.select(&:present?).any? ? serialized : {})
+          result.update(key => present_authorization_handlers.keys.any? ? serialized : {})
         end
 
         if resource

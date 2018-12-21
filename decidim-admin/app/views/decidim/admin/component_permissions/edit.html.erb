@@ -18,28 +18,33 @@
 
           <div class="card-section">
             <%= action_permission_form.fields_for(action, permission) do |permission_form| %>
-              <%= permission_form.collection_select :authorization_handler_name,
+              <%= permission_form.collection_check_boxes :authorization_handlers,
                                                     authorizations,
                                                     :name,
                                                     :description,
                                                     { include_blank: t(".everyone") } %>
-              <% if permission.authorization_handler_name.any? %>
-                <div id="authorization-handler-<%= permission.authorization_handler_name.first %>"
-                     class="authorization-handler">
-                  <%= render "options_form", form: permission_form %>
+              <% permission.authorization_handlers_names.each do |handler_name| %>
+                <div id="authorization-handler-<%= handler_name %>"
+                    class="authorization-handler">
+                  <%= render "options_form", form: permission_form, handler_name: handler_name %>
                 </div>
               <% end %>
             <% end %>
 
-            <% other_authorizations_for(action).each do |authorization| %>
-              <% permission = Decidim::Admin::PermissionForm.new(authorization_handler_name: [authorization.name]) %>
+            <!-- Cada elemento es de esta clase: Decidim::Verifications::Adapter -->
+            <% other_authorizations_for(action).each do |verification_adapter| %>
+              <!-- Aquí estoy machacando las opciones. Hay que ajsutar esta línea. -->
+              <% permission = Decidim::Admin::PermissionForm.new(authorization_handlers: { verification_adapter.name => {} }) %>
 
               <%= action_permission_form.fields_for(action, permission) do |permission_form| %>
-                <div id="authorization-handler-<%= authorization.name %>"
-                     class="authorization-handler"
-                     style="display:none">
-                  <%= render "options_form", form: permission_form %>
-                </div>
+                <% permission.authorization_handlers.keys.each do |handler_name| %>
+                  <div id="authorization-handler-<%= handler_name %>"
+                      class="authorization-handler">
+                      <!--style="display:none"> Esto se oculta/muestra por JS cuando seleccionamos el handler adecuado, hasta que funcione OK, visible siempre -->
+                    <%= render "options_form", form: permission_form, handler_name: handler_name %>
+                  </div>
+                <% end %>
+
               <% end %>
             <% end %>
           </div>

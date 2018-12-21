@@ -29,39 +29,64 @@ module Decidim
     def authorize
       raise AuthorizationError, "Missing data" unless component && action
 
-      status_code, data = if authorization_handler_name
-                            authorization_handler.authorize(authorization, permission_options, component, resource)
-                          else
-                            [:ok, {}]
-                          end
+      results = []
 
-      AuthorizationStatus.new(status_code, authorization_handler, data)
+      # TODO: esta implementación es temporal para que mas o menos pasen los tests.
+      # Inicialmente llamaba al método authorize del único AuthorizationHandler y
+      # devolvía el resultado encapsulado dentro de la clase AuthorizationStatus.
+      # Hay que modficarla para que llame a `authorize` sobre todos los handlers y:
+      # (1) devuelve todos los estados dentro de AuthorizationStatus, (2) devuelva un
+      # array de AuthorizationStatus. Probablemente sea mas sencilla la opción (1)
+
+      if authorization_handlers
+        authorization_handlers.each do |handler_name, handler_attrs|
+          authorization = get_authorization(handler_name)
+          handler = Verifications::Adapter.from_element(handler_name)
+          options = handler_attrs.fetch("options", {})
+          results << handler.authorize(authorization, options, component, resource)
+        end
+      else
+        results << [:ok, {}]
+      end
+
+      all_status_codes = results.map(&:first).uniq
+      all_data = results.map(&:second)
+
+      # provisionalmente devuelvo :ok si todos :ok, o el primero que no sea :ok
+      status_code = all_status_codes == [:ok] ? :ok : all_status_codes.reject { |code| code == :ok }.first
+      # provisionalmente se devuelve solo el primer handler
+      authorization_handler = authorization_handlers ? authorization_handlers.first : nil
+
+      AuthorizationStatus.new(status_code, authorization_handler, all_data.first)
     end
 
     private
 
     attr_reader :user, :component, :resource, :action
 
-    def authorization
-      return nil unless user && authorization_handler_name
+    def get_authorization(handler_name)
+      return nil unless user && handler_name
 
-      @authorization ||= Verifications::Authorizations.new(organization: user.organization, user: user, name: authorization_handler_name).first
+      Verifications::Authorizations.new(organization: user.organization, user: user, name: handler_name).first
     end
 
-    def authorization_handler
-      return unless authorization_handler_name
+    # def authorization_handler
+    #   return unless authorization_handler_name
+    #   @authorization_handler ||= Verifications::Adapter.from_element(authorization_handler_name)
+    # end
 
-      @authorization_handler ||= Verifications::Adapter.from_element(authorization_handler_name)
+    def authorization_handlers
+      permission&.fetch("authorization_handlers", {})
     end
 
-    def authorization_handler_name
-      handler_names = permission&.fetch("authorization_handler_name", [])
-      handler_names.first if handler_names && handler_names.is_a?(Array) && handler_names.any?
-    end
+    # def authorization_handler_name
+    #   handler_names = permission&.fetch("authorization_handler_name", [])
+    #   handler_names.first if handler_names && handler_names.is_a?(Array) && handler_names.any?
+    # end
 
-    def permission_options
-      permission&.fetch("options", {})
-    end
+    # def permission_options
+    #   permission&.fetch("options", {})
+    # end
 
     def permission
       return nil unless component && action

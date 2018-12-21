@@ -1,14 +1,22 @@
 <%
-  schema = form.object.options_schema
-  attributes = form.object.options_attributes
+  handler_name = local_assigns[:handler_name]
+  schema = form.object.options_schema(handler_name)
+  attributes = form.object.options_attributes(handler_name)
 %>
 
-<%= form.fields_for(:options, schema) do |options_form| %>
+<%= form.fields_for(:authorization_handlers_options, schema) do |options_form| %>
   <% attributes.each do |name, attribute| %>
-    <%= options_form.send(
+
+    <!-- Lo ideal sería no generar este nombre a mano y utilizar algo similar al código original -->
+    <% field_name = "component_permissions[permissions][#{local_assigns[:action]}][authorization_handlers_options][#{handler_name}][options][#{name}]" %>
+    <%= label_tag field_name, t("authorization_handlers.#{handler_name}.fields.#{name}", scope: "decidim") %>
+    <%= text_field_tag field_name %>
+
+    <!--<= options_form.send(
           form_method_for_attribute(attribute),
           name,
-          label: t("authorization_handlers.#{form.object.authorization_handler_name.first}.fields.#{name}", scope: "decidim")
-        ) %>
+          label: t("authorization_handlers.#{handler_name}.fields.#{name}", scope: "decidim")
+        ) >-->
+
   <% end %>
 <% end %>

@@ -68,6 +68,9 @@ module Decidim
         html_options["data-open"] = "loginModal"
         url = ""
       elsif action && !action_authorized_to(action, resource: resource).ok?
+        Rails.logger.debug "**************************"
+        Rails.logger.debug "Not authorized. Putting modal in place"
+        Rails.logger.debug "**************************"
         html_options["data-open"] = "authorizationModal"
         html_options["data-open-url"] = modal_path(action, resource)
         url = ""
