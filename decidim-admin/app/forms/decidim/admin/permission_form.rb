@@ -4,30 +4,43 @@ module Decidim
   module Admin
     # This form handles permissions for a particular action in the admin panel.
     class PermissionForm < Form
-      attribute :authorization_handler_name, Array[String]
-      attribute :options, Hash
+      attribute :authorization_handlers, Hash
 
-      def manifest
-        Decidim::Verifications.find_workflow_manifest(authorization_handler_name&.first)
+      def authorization_handlers_names
+        authorization_handlers.keys.map(&:to_s)
       end
 
-      def options_schema
-        @options_schema ||= options_manifest.schema.new(options || {})
+      def authorization_handler_options(handler_name)
+        find_handler(handler_name)[:options]
+      end
+
+      def manifest(handler_name)
+        Decidim::Verifications.find_workflow_manifest(handler_name)
+      end
+
+      def options_schema(handler_name)
+        options_manifest(handler_name).schema.new(find_handler(handler_name)["options"] || {})
       end
 
       # options_manifest.attributes.class => Hash
       # example:
       # { postal_code: #<Decidim::SettingsManifest::Attribute> }
-      def options_attributes
-        options_manifest.attributes
+      def options_attributes(handler_name)
+        manifest = options_manifest(handler_name)
+        manifest ? manifest.attributes : []
       end
 
       private
 
       # manifest.class => Decidim::Verifications::WorkflowManifest
       # manifest.options.class => Decidim::SettingsManifest
-      def options_manifest
-        manifest.options
+      def options_manifest(handler_name)
+        manifest(handler_name).options
+      end
+
+      def find_handler(handler_name)
+        authorization_handlers[handler_name.to_s] ||
+          authorization_handlers[handler_name.to_sym]
       end
     end
   end

@@ -2,6 +2,9 @@
 
 require "spec_helper"
 
+# TODO: algunas de estas specs son más para entender que reciben/devuelven algunos métodos
+# y ver que no rompo las llamadas. De cara a crear la PR igual algunas que pierden la utilidad.
+
 module Decidim
   module Admin
     describe PermissionsForm do
@@ -49,6 +52,35 @@ module Decidim
           end
 
           it { is_expected.to be_invalid }
+        end
+      end
+
+      describe "build from model" do
+        let(:permissions_payload) do
+          {
+            "vote": {},
+            "endorse": {
+              "authorization_handlers": {
+                "postal_letter": {},
+                "dummy_authorization_handler": {
+                  "options": {
+                    "postal_code": "123456"
+                  }
+                }
+              }
+            }
+          }
+        end
+        let(:permission) do
+          Decidim::ResourcePermission.create(
+            resource: create(:proposal),
+            permissions: permissions_payload
+          )
+        end
+
+        it "is OK" do
+          permissions_form = described_class.from_model(permission)
+          expect(permissions_form.permissions.keys).to eq(["vote", "endorse"])
         end
       end
 
