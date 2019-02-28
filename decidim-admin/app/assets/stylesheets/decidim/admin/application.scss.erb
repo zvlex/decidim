@@ -4,3 +4,7 @@
 <% Decidim.component_manifests.map(&:admin_stylesheet).compact.each do |stylesheet| %>
 @import "<%= stylesheet %>";
 <% end %>
+
+<% Decidim.participatory_space_manifests.map(&:admin_stylesheet).compact.each do |stylesheet| %>
+@import "<%= stylesheet %>";
+<% end %>

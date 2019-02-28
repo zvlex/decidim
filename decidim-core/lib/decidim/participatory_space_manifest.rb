@@ -44,6 +44,11 @@ module Decidim
     # use the scss variables and mixins provided by Decidim::Core.
     attribute :stylesheet, String, default: nil
 
+    # A path with the `scss` admin stylesheet this engine provides. It is used
+    # to mix this engine's stylesheets with the main app's admin stylesheets so
+    # it can use the scss variables and mixins provided by Decidim::Admin.
+    attribute :admin_stylesheet, String, default: nil
+
     validates :name, presence: true
 
     # A context used to set the layout and behavior of a participatory space. Full documentation can
