@@ -58,6 +58,9 @@ module Decidim
       where("extended_data->>'interested_scopes' ~~ ANY('{#{ids}}')")
     }
 
+    scope :admins, -> { where(admin: true) }
+    scope :user_managers, -> { where(roles: ["user_manager"]) }
+    
     attr_accessor :newsletter_notifications
 
     searchable_fields({

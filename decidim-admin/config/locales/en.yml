@@ -708,6 +708,11 @@ en:
           email: Email
           name: Name
           role: Role
+        index:
+          filter:
+            all: All
+          filter_by: Filter by
+          search: Search
         new:
           create: Invite
           title: Invite participant as administrator

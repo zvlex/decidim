@@ -7,7 +7,9 @@ module Decidim
     class UsersController < Decidim::Admin::ApplicationController
       def index
         enforce_permission_to :read, :admin_user
-        @users = collection.page(params[:page]).per(15)
+        @query = params[:q]
+        @role = params[:role]
+        @users = Decidim::Admin::UserAdminFilter.for(collection, @query, @role).page(params[:page]).per(15)
       end
 
       def new
