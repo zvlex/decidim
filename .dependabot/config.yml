@@ -1,0 +1,103 @@
+version: 1
+
+update_configs:
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-core"
+    update_schedule: "live"
+    ignored_updates:
+    - match:
+        dependency_name: "decidim*"
+    - match:
+        dependency_name: "rails"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-accountability"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-admin"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-api"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-assemblies"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-blogs"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-budgets"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-comments"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-conferences"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-consultations"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-core"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-debates"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-dev"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-forms"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-generators"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-initiatives"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-meetings"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-pages"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-participatory_processes"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-proposals"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-sortitions"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-surveys"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-system"
+    update_schedule: "live"
+
+  - package_manager: "ruby:bundler"
+    directory: "/decidim-verifications"
+    update_schedule: "live"
