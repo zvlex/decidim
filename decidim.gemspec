@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-$LOAD_PATH.push File.expand_path("lib", __dir__)
-
 # Maintain your gem's version:
-require "decidim/version"
+require "./lib/decidim/version"
 
 Gem::Specification.new do |s|
   s.version = Decidim.version
